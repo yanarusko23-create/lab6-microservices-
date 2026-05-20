@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  payment-service-15:
+    build: ./payment_service
+    ports:
+      - "8015:8000"
+    environment:
+      - STUDENT_N=15
+    depends_on:
+      - meter-service-15
+    networks:
+      - lab-network
+
+  meter-service-15:
+    build: ./meter_service
+    ports:
+      - "9015:8000"
+    environment:
+      - STUDENT_N=15
+    networks:
+      - lab-network
+
+networks:
+  lab-network:
+    driver: bridge

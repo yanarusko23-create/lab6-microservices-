@@ -1,0 +1,59 @@
+{
+  "info": {
+    "name": "Lab6_UtilityPayment_N15",
+    "_postman_id": "lab6-utility-n15",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET All Charges",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "http://localhost:9015/meters", "protocol": "http", "host": ["localhost"], "port": "9015", "path": ["meters"] }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+        "pm.test(\"student_id is 15\", () => pm.expect(pm.response.json().student_id).to.eql(15));",
+        "pm.test(\"charges is array\", () => pm.expect(pm.response.json().charges).to.be.an('array'));"
+      ], "type": "text/javascript" } }]
+    },
+    {
+      "name": "GET Charge by ID 1501",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "http://localhost:9015/meters/1501", "protocol": "http", "host": ["localhost"], "port": "9015", "path": ["meters", "1501"] }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+        "pm.test(\"student_id is 15\", () => pm.expect(pm.response.json().student_id).to.eql(15));",
+        "pm.test(\"charge id is 1501\", () => pm.expect(pm.response.json().data.id).to.eql(1501));"
+      ], "type": "text/javascript" } }]
+    },
+    {
+      "name": "POST Create Payment",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"charge_id\": 1501,\n  \"card_last4\": \"4242\"\n}" },
+        "url": { "raw": "http://localhost:8015/payments", "protocol": "http", "host": ["localhost"], "port": "8015", "path": ["payments"] }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+        "pm.test(\"student_id is 15\", () => pm.expect(pm.response.json().student_id).to.eql(15));",
+        "pm.test(\"status is Success\", () => pm.expect(pm.response.json().status).to.eql('Success'));",
+        "pm.test(\"amount is 385.50\", () => pm.expect(pm.response.json().amount).to.eql(385.50));"
+      ], "type": "text/javascript" } }]
+    },
+    {
+      "name": "GET All Payments",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "http://localhost:8015/payments", "protocol": "http", "host": ["localhost"], "port": "8015", "path": ["payments"] }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+        "pm.test(\"student_id is 15\", () => pm.expect(pm.response.json().student_id).to.eql(15));"
+      ], "type": "text/javascript" } }]
+    }
+  ]
+}
